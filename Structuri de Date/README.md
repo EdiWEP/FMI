@@ -40,4 +40,7 @@ Fara modificarea sursei, se ruleaza pentru baza 10 si baza 8.
 **Quick Sort**
 Am ales pivotul in doua moduri diferite, intai mediana din 3, apoi mereu ultimul element. Pe testele mele, timpul de rulare nu a parut sa fie afectat prea mult.
 
-Am avut probleme de stack overflow la rularea QuickSort-ului pe numere mari, de aceea am folosit o varianta care simuleaza unele recursii folosind instructiunea goto, pentru a reduce adancimea recursiilor.
+Am avut probleme de stack overflow la rularea QuickSort-ului pe un N mare, de aceea am folosit o varianta care simuleaza unele recursii folosind instructiunea goto, pentru a reduce adancimea recursiilor.
+
+** Cod extern folosit**
+Am inclus in fisierul "Surse cod folosit.txt" sursele de unde am preluat si eventual modificat cod gasit pe internet.
