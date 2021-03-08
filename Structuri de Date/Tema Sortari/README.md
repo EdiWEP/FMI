@@ -34,7 +34,7 @@ O problema pe care nu am reusit sa o rezolv: Pe calculatorul si sistem-ul pe car
 
 Observatie: Unii algoritmi au fost mai lenti decat ma asteptam, insa nu pot determina daca este din cauza hardware-ului, software-ului(am rulat cu Visual Studio Community 2019) sau a implementarii.
 
-Voi rula programul pe un sistem cu Linux ca sa vad daca rezultatele difera.
+Am rulat programul pe Linux Mint, unde sort() din STL s-a comportat normal. Am inclus rezultatele in RezultateLinux.txt
 
 **Radix Sort**
 

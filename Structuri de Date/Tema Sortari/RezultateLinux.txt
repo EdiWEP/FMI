@@ -1,0 +1,55 @@
+Rezultate Test 1, cu N = 1000 si Max = 1000
+
+   Sort din STL a sortat Corect, timp de executie: 0.000113 secunde
+   BubbleSort-ul implementat a sortat Corect, timp de executie: 0.002327 secunde
+   CountSort-ul implementat a sortat Corect, timp de executie: 2.3e-05 secunde
+   LSD(baza 10) RadixSort-ul implementat a sortat Corect, timp de executie: 6.6e-05 secunde
+   LSD(baza 8) RadixSort-ul implementat a sortat Corect, timp de executie: 0.000122 secunde
+   Median of 3 Quicksort-ul implementat a sortat Corect, timp de executie: 6.8e-05 secunde
+   Last Element Pivot Quicksort-ul implementat a sortat Corect, timp de executie: 6.5e-05 secunde
+   MergeSort-ul implementat a sortat Corect, timp de executie: 9.8e-05 secunde
+
+Rezultate Test 2, cu N = 1000 si Max = 10000000
+
+   Sort din STL a sortat Corect, timp de executie: 9.4e-05 secunde
+   BubbleSort-ul implementat a sortat Corect, timp de executie: 0.002228 secunde
+   CountSort-ul implementat a sortat Corect, timp de executie: 0.051621 secunde
+   LSD(baza 10) RadixSort-ul implementat a sortat Corect, timp de executie: 0.000154 secunde
+   LSD(baza 8) RadixSort-ul implementat a sortat Corect, timp de executie: 0.000172 secunde
+   Median of 3 Quicksort-ul implementat a sortat Corect, timp de executie: 6.8e-05 secunde
+   Last Element Pivot Quicksort-ul implementat a sortat Corect, timp de executie: 6.5e-05 secunde
+   MergeSort-ul implementat a sortat Corect, timp de executie: 9.7e-05 secunde
+
+Rezultate Test 3, cu N = 100000 si Max = 10000
+
+   Sort din STL a sortat Corect, timp de executie: 0.014472 secunde
+   BubbleSort nu poate sorta, N este prea mare
+   CountSort-ul implementat a sortat Corect, timp de executie: 0.000745 secunde
+   LSD(baza 10) RadixSort-ul implementat a sortat Corect, timp de executie: 0.011012 secunde
+   LSD(baza 8) RadixSort-ul implementat a sortat Corect, timp de executie: 0.011118 secunde
+   Median of 3 Quicksort-ul implementat a sortat Corect, timp de executie: 0.010074 secunde
+   Last Element Pivot Quicksort-ul implementat a sortat Corect, timp de executie: 0.009981 secunde
+   MergeSort-ul implementat a sortat Corect, timp de executie: 0.014738 secunde
+
+Rezultate Test 4, cu N = 1000000 si Max = 100000
+
+   Sort din STL a sortat Corect, timp de executie: 0.174795 secunde
+   BubbleSort nu poate sorta, N este prea mare
+   CountSort-ul implementat a sortat Corect, timp de executie: 0.008584 secunde
+   LSD(baza 10) RadixSort-ul implementat a sortat Corect, timp de executie: 0.131983 secunde
+   LSD(baza 8) RadixSort-ul implementat a sortat Corect, timp de executie: 0.125075 secunde
+   Median of 3 Quicksort-ul implementat a sortat Corect, timp de executie: 0.119993 secunde
+   Last Element Pivot Quicksort-ul implementat a sortat Corect, timp de executie: 0.119846 secunde
+   MergeSort-ul implementat a sortat Corect, timp de executie: 0.176787 secunde
+
+Rezultate Test 5, cu N = 10000000 si Max = 10000
+
+   Sort din STL a sortat Corect, timp de executie: 1.86599 secunde
+   BubbleSort nu poate sorta, N este prea mare
+   CountSort-ul implementat a sortat Corect, timp de executie: 0.055516 secunde
+   LSD(baza 10) RadixSort-ul implementat a sortat Corect, timp de executie: 1.22473 secunde
+   LSD(baza 8) RadixSort-ul implementat a sortat Corect, timp de executie: 1.17708 secunde
+   Median of 3 Quicksort-ul implementat a sortat Corect, timp de executie: 7.35295 secunde
+   Last Element Pivot Quicksort-ul implementat a sortat Corect, timp de executie: 7.59543 secunde
+   MergeSort-ul implementat a sortat Corect, timp de executie: 1.82716 secunde
+
