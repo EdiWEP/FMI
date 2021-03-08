@@ -42,5 +42,5 @@ Am ales pivotul in doua moduri diferite, intai mediana din 3, apoi mereu ultimul
 
 Am avut probleme de stack overflow la rularea QuickSort-ului pe un N mare, de aceea am folosit o varianta care simuleaza unele recursii folosind instructiunea goto, pentru a reduce adancimea recursiilor.
 
-** Cod extern folosit**
+** Cod extern folosit **
 Am inclus in fisierul "Surse cod folosit.txt" sursele de unde am preluat si eventual modificat cod gasit pe internet.
