@@ -1,5 +1,0 @@
-Tail recursion pentru a evita stack overflow la numere mari la quicksort:
-https://stackoverflow.com/questions/22285951/c-getting-stackoverflow-error-in-quicksort-function
-
-Generator de numere random Mersenne Twister:
-https://codereview.stackexchange.com/questions/109260/seed-stdmt19937-from-stdrandom-device
