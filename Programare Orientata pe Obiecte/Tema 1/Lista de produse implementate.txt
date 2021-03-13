@@ -1,8 +1,8 @@
-Varza la bucata
-Cartofi la kg, tip: rosii/albi
-Faina la kg, tip: I ,II , III
+Varza la bucata; fara tip sau denumire
+Cartofi la kg, tip: rosii/albi; fara denumire
+Faina la kg, tip: I ,II , III; fara denumire
 Bere la bucata, tip:blonda,bruna; si denumire
 Vin(varsat si de soi) tip:rosu/alb ambele
--varsat la L, 
--de soi la bucata(cu denumire si an si tara culegere), 
-Jucarie la bucata, cu denumire
+	-varsat la L, fara denumire
+	-de soi la bucata(cu denumire si an si tara culegere)
+Jucarie la bucata, cu denumire; fara tip
