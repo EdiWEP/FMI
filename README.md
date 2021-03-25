@@ -1,2 +1,2 @@
 # FMI
-Things related to the university degree I'm persuing at the moment.
+Things related to the university degree I'm pursuing at the moment.
