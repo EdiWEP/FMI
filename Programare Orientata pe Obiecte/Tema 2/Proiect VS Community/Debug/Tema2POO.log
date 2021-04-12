@@ -1,0 +1,4 @@
+﻿  Tema2POO.cpp
+G:\Work\VS Community Projects\Tema2POO\Biblioteca.h(211,15): warning C4101: 'errorCode': unreferenced local variable
+G:\Work\VS Community Projects\Tema2POO\Biblioteca.h(236,15): warning C4101: 'errorCode': unreferenced local variable
+  Tema2POO.vcxproj -> G:\Work\VS Community Projects\Tema2POO\Debug\Tema2POO.exe
