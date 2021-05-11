@@ -1,0 +1,29 @@
+{
+    "ingredients": [
+        {
+            "id": "5eadf350-105e-11ea-983f-f5983827844a",
+            "name": "Lettuce",
+            "image": "https://cdn.britannica.com/77/170677-050-F7333D51/lettuce.jpg"
+        },
+        {
+            "id": "71ed9fb0-105e-11ea-983f-f5983827844a",
+            "name": "Tomato",
+            "image": "https://media.istockphoto.com/photos/tomato-isolated-tomato-on-white-background-with-clipping-path-full-picture-id941825808?k=6&m=941825808&s=612x612&w=0&h=zMkokhq3w7fN5xYeiTX27c6TICJ53ZvZg9AY2LNgw_0="
+        },
+        {
+            "id": "89256140-105e-11ea-983f-f5983827844a",
+            "name": "Cucumber",
+            "image": "https://www.lima-europe.eu/wp-content/uploads/2017/04/Cucumber.jpg"
+        },
+        {
+            "id": "898c1250-105e-11ea-983f-f5983827844a",
+            "name": "Olive",
+            "image": "https://cdn.shopify.com/s/files/1/0376/5213/products/green-olives-sicilian-200g_600x.png?v=1613482505"
+        },
+        {
+            "id": "8a7fc120-105e-11ea-983f-f5983827844a",
+            "name": "Avocado",
+            "image": "https://fresh-fruits.ro/wp-content/uploads/2019/02/avocado_1050x700.jpg"
+        }
+    ]
+}

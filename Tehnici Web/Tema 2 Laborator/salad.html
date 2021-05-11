@@ -1,0 +1,89 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>Plant Based Products</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="stylesheets/saladStylesheet.css">
+    <link rel="stylesheet" href="stylesheets/generalStylesheet.css">
+    
+</head>
+
+<body>
+
+
+    <h1 class="title">
+        Plant Based Products
+    </h1>
+
+    <nav class = "menu">
+        <a class ="menuAnchor homeAnchor" href="home.html">
+            <div class ="menuAnchorButton">
+                Home
+            </div>            
+        </a>
+        <a class ="menuAnchor companiesAnchor" href="companies.html">
+            <div class ="menuAnchorButton">
+                Companies  
+            </div>            
+        </a>
+        <a class ="menuAnchor saladAnchor" href="salad.html">
+            <div class ="menuAnchorButton">
+                Salads
+            </div>            
+        </a>
+        <a class ="menuAnchor aboutAnchor" href="about.html">
+            <div class ="menuAnchorButton">
+                About
+            </div>            
+        </a>
+    </nav>
+
+    <div class = "saladContainer"> 
+
+        <h2 class = "saladTitle">
+            Make yourself a salad!
+        </h2>
+
+        <h2 class = "ingredientsTitle">
+            Your ingredients
+        </h2>
+
+        <div class ="ingredientsContainer"></div>
+
+        <h2 class = "addEditTitle">
+            Change Ingredients
+        </h2>
+        
+        <div class = "addEditContainer"> 
+
+            <label for="nameInput">
+                Name:
+            </label>
+            <input class = "inputField" id ="nameInput">
+            
+            <label for="imageInput">
+                Image URL:
+            </label>
+            <input class = "inputField" id ="imageInput">
+
+            <button onclick="addIngredient()" class = "addButton">
+                <div class = "button">
+                    Add
+                </div>
+            </button>
+        
+            
+            <button onclick="editIngredient()" class = "editButton">
+                <div class = "button">
+                    Edit
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script src="scripts/salad.js"></script>
+</body>
+
+</html>
