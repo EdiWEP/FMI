@@ -1,0 +1,7 @@
+5
+N = {S,A}
+Sigma = {a,b,c}
+S -> aS
+S -> bA
+A -> #
+A -> cA

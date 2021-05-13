@@ -1,0 +1,6 @@
+Cuvinte generate de lungime 5
+aaaab
+aaabc
+aabcc
+abccc
+bcccc
