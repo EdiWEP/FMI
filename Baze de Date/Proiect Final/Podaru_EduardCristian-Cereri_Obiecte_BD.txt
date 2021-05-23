@@ -1,0 +1,157 @@
+-- 11 cerința 1
+-- Selectați toate adresele la cere va fi livrată o comandă care coincid cu adresa clientului care a efectuat comanda.
+-- Se vor selecta doar adresele la care vor fi livrate articole care au în denumire cuvântul "bumbac" și mărimea XL.
+-- Afișarea va fi în ordinea următoare: 
+-- id-ul articolului, denumirea articolului, marimea articolului, id-ul adresei, orasul, strada ,numarul adresei.
+
+SELECT art.idArticol, art.denumire, art.marime, adr.idAdresa, adr.oras, adr.strada, adr.numar
+FROM Articol art 
+INNER JOIN Reducere red
+ON art.idReducere = red.idReducere
+INNER JOIN Comanda comm
+ON art.idComanda = comm.idComanda
+INNER JOIN Adresa adr
+ON adr.idAdresa = comm.idAdresa
+INNER JOIN Client cli
+ON cli.idClient = comm.idClient
+WHERE lower(art.denumire) like '%bumbac%' AND art.marime = 'XL';
+
+    
+-- 11 cerința 2
+--Selectați articolele din colecții ale brandului "Levis", care sunt la reducere și nu fac parte dintr-o comandă.
+--Se vor afișa: id-ul articolului, denumirea articolului, numelePromotiei, discount-ul promotiei și denumirea colecției din care face parte.
+--Vor fi afișate crescător după discount.
+
+SELECT art.idArticol, art.denumire, red.numePromotie, red.discount, coll.denumire as DenumireColectie
+FROM Articol art
+LEFT JOIN Reducere red ON red.idReducere = art.idReducere
+LEFT JOIN Apartine apa ON apa.idArticol = art.idArticol
+LEFT JOIN Colectie coll ON coll.idColectie = apa.idApartenenta
+WHERE EXISTS(
+    SELECT * 
+    FROM Apartine ap
+    INNER JOIN Colectie cole ON ap.idApartenenta = cole.idColectie 
+    INNER JOIN Brand bra ON cole.idBrand = bra.idBrand
+    WHERE ap.idArticol = art.idArticol  AND upper(bra.denumire) = 'LEVIS' AND NVL(art.idComanda, -1) = -1 AND art.idReducere is not null 
+) ORDER BY red.discount;
+
+
+-- 11 cerința 3
+-- Selectați toate articolele a căror denumire începe cu cuvântul "Tricou", 
+-- apoi, la cele care au prețul minim, adăugați 30 la preț.
+-- Se vor afișa în ordine pentru fiecare tricou: 
+-- id-ul tricoului, denumirea tricoului, prețul vechi și prețul nou(sau "Neschimbat" dacă nu avea preț minim).
+
+WITH tricouri AS (
+    SELECT idArticol, pret
+    FROM Articol
+    WHERE SUBSTR(denumire,1,6) = 'Tricou'
+)
+SELECT idArticol, denumire, pret as PRET_VECHI, 
+        DECODE((SELECT MIN(pret) FROM tricouri), pret, TO_CHAR(pret+30),'Neschimbat') as PRET_NOU
+FROM Articol
+WHERE idArticol IN (SELECT idArticol FROM tricouri) 
+GROUP BY idArticol, denumire, pret;
+
+
+
+-- 11 cerința 4
+-- Selectați pentru fiecare tip de haine pentru bărbați, numărul de articole care fac parte din comenzi,
+-- media prețurilor articolelor care fac parte din comenzi,
+-- și prețul articolului cu cel mai mare preț care face parte dintr-o comandă  
+-- Se vor afișa doar cele care au media prețurilor < 100
+-- Se va afișa pentru fiecare tip:denumirea tipului, numarul de articole, media cerută și maximul cerut
+
+SELECT tipa.denumire, COUNT(*) as NrArticole, AVG(art.pret) as Medie, MAX(art.pret) as Maxim
+FROM Articol art 
+LEFT JOIN Tip_Articol tipa
+ON tipa.idTip = art.idtip
+WHERE art.idArticol IN (
+    SELECT art2.idArticol
+    FROM Articol art2
+    INNER JOIN Tip_Articol tipa2
+    ON tipa2.idTip = art2.idTip
+    INNER JOIN Comanda comm
+    ON comm.idComanda = art2.idComanda
+    WHERE tipa2.sex = 'M' 
+)
+GROUP BY tipa.denumire
+HAVING AVG(art.pret) < 100;
+
+
+-- 11 cerința 5
+-- Pentru fiecare comandă, să se afișeze anotimpul în care se află data de plecare, 
+-- și numărul de luni dintre data curentă și data de livrare
+-- Se vor afișa, în ordine alfabetică după nume, pentru fiecare comandă: 
+-- id-ul clientului care a plasat-o, numele clientului, numărul de luni cerut și anotimpul
+
+SELECT comm.idClient, cli.nume || ' ' || cli.prenume as NumeClient, 
+    ABS(FLOOR(MONTHS_BETWEEN(comm.dataLivrare, SYSDATE))) as diferenta,
+    CASE 
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '01' THEN 'Iarna'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '02' THEN 'Iarna'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '03' THEN 'Primavara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '04' THEN 'Primavara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '05' THEN 'Primavara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '06' THEN 'Vara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '07' THEN 'Vara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '08' THEN 'Vara'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '09' THEN 'Toamna'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '10' THEN 'Toamna'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '11' THEN 'Toamna'
+        WHEN (SUBSTR(TO_CHAR(comm.dataPlecare),4,2)) = '12' THEN 'Iarna'
+        ELSE 'Alt Timeline'
+    END AS Anotimp
+FROM Comanda comm
+INNER JOIN Client cli
+ON comm.idClient = cli.idClient
+ORDER BY NumeClient;
+
+
+
+-- 12
+-- Exemplu de actualizare
+-- Comanda următoare creste prețul tuturor articolelor de tip palton cu 50 
+
+UPDATE Articol
+SET pret = (pret + 50) 
+WHERE idTip in (SELECT idTip FROM Tip_Articol WHERE denumire = 'palton');
+
+-- 12
+-- Exemplu 2 de actualizare
+-- Comanda următoare va seta data de livrate la valoarea datei de plecare, 
+-- pentru comenzile care sunt destinate unei adrese din orașul București
+
+UPDATE Comanda
+SET dataLivrare = dataPlecare
+WHERE idComanda in (
+    SELECT idComanda 
+    FROM Comanda comm
+    INNER JOIN Adresa adr
+    ON adr.idAdresa = comm.IdAdresa
+    WHERE lower(adr.oras) = 'bucuresti'
+);
+
+-- 12
+-- Exemplu de suprimare
+-- Următoarea comandă va șterge articolele care fac parte din comenzi a căror dată de livrare 
+-- este în trecut față de data curentă
+
+DELETE FROM Articol
+WHERE idArticol in (
+    SELECT idArticol 
+    FROM Articol art
+    INNER JOIN Comanda comm
+    ON comm.idComanda = art.idComanda
+    WHERE (comm.dataLivrare < SYSDATE)
+);
+
+
+
+-- 13
+-- Următoarea porțiune de codu nu ar trebui rulată, deoarece ar trebui să fi fost rulată deja din fișierul 
+-- De creare și inserare
+
+CREATE SEQUENCE sequenceAdresa
+START WITH 1
+INCREMENT BY 1;
