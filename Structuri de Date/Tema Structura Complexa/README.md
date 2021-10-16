@@ -4,7 +4,7 @@ Proiect realizat de Podaru Eduard-Cristian, grupa 131, pentru Tema 3 din cadrul 
 
 ## Detalii despre implementare
 
-* Am ales sa implementez nod-urile si heap-urile ca si clase
+* Am ales sa implementez nodurile si heap-urile ca si clase
 * Programul e facut sa mearga conform [cerintei de pe inforarena](https://infoarena.ro/problema/mergeheap) aferenta proiectului
 * Pentru stergerea radacinii, pentru a garanta pastrarea proprietatii max-heap, am folosit tehnica two-pass merge, care e alcatuita din doi pasi: 
     1. Se efectueaza merge pe cate doua subheap-uri
