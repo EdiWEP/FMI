@@ -1,0 +1,54 @@
+-- Trigger pentru a restrictiona modificarea datelor din tabelul articol
+-- Modificarile vor fi permise doar in primele 3 zile ale lunii
+CREATE OR REPLACE TRIGGER trigger_modificare_stoc
+BEFORE INSERT OR UPDATE OR DELETE ON articol
+BEGIN
+    IF (TO_CHAR(sysdate, 'DD') != 1 
+        AND TO_CHAR(sysdate, 'DD') != 2 
+        AND TO_CHAR(sysdate, 'DD') != 3) THEN
+    RAISE_APPLICATION_ERROR(-20001 , 
+        'Stocul articolelor nu poate fi modificat decat in primele 3 zile ale lunii');
+    END IF;
+END;
+/
+
+INSERT INTO articol(idArticol, denumire, marime, pret, idReducere, idComanda, idTip) 
+    VALUES(21, 'Tricou albastru', 'M', 50, null, null, 5);
+
+
+-- Trigger pentru a permite doar litere si spatii in denumirele articolelor
+CREATE OR REPLACE TRIGGER trigger_litere_articol
+BEFORE INSERT OR UPDATE OF denumire ON articol
+    FOR EACH ROW
+BEGIN 
+
+    IF (LENGTH(TRIM(TRANSLATE(:NEW.denumire, 
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', ' ')))) IS NOT NULL
+    THEN
+        RAISE_APPLICATION_ERROR(-20002, 'Denumirile articolelor pot contine doar litere si spatii');
+    END IF;
+END;
+/
+
+INSERT INTO articol(idArticol, denumire, marime, pret, idReducere, idComanda, idTip) 
+    VALUES(21, '#Tricou!', 'M', 50, null, null, 5);
+
+
+CREATE TABLE log_ldd(
+    data DATE,
+    actiune VARCHAR2(50),
+    tabel VARCHAR2(50),
+    utilizator VARCHAR2(50)
+);
+
+CREATE OR REPLACE TRIGGER trigger_log_ldd
+AFTER ALTER OR DROP OR CREATE ON schema
+BEGIN
+    INSERT INTO log_ldd(data, actiune, tabel, utilizator) 
+        VALUES(sysdate, sys.sysevent, sys.dictionary_obj_name, sys.login_user);
+END;
+/
+
+CREATE TABLE testTable(testColumn number(5) primary key);
+ALTER TABLE testTable ADD testColumn2 VARCHAR2(10);
+DROP TABLE testTable;

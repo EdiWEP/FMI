@@ -1,0 +1,68 @@
+CREATE TABLE Adresa(
+    idAdresa number(7) PRIMARY KEY,
+    oras varchar(50),
+    strada varchar(50),
+    numar number(5),
+    bloc varchar(10),
+    scara varchar(10),
+    apartament number(5)
+);
+CREATE TABLE Client(
+    idClient number(7) PRIMARY KEY,
+    nume varchar(50),
+    prenume varchar(50),
+    telefon varchar(15) unique,
+    idAdresa number(7) not null,
+    CONSTRAINT clientIdAdresaFK FOREIGN KEY(idAdresa) references Adresa(idAdresa)
+);
+CREATE TABLE Tip_Articol(
+    idTip number(7) PRIMARY KEY,
+    denumire varchar(50) unique,
+    sex char(1)
+    
+);
+CREATE TABLE Reducere(
+    idReducere number(7) PRIMARY KEY,
+    discount number(3),
+    numePromotie varchar(100)
+);
+CREATE TABLE Brand(
+    idBrand number(7) PRIMARY KEY,
+    denumire varchar(50) unique,
+    telefon varchar(15) unique,
+    idAdresa number(7) not null unique,
+    CONSTRAINT brandIdAdresaFK FOREIGN KEY(idAdresa) references Adresa(idAdresa)
+);
+CREATE TABLE Colectie(
+    idColectie number(7) PRIMARY KEY,
+    denumire varchar(100),
+    dataAparitie date,
+    idBrand number(7) not null,
+    CONSTRAINT colectieIdBrandFK FOREIGN KEY(idBrand) references Brand(idBrand)
+);
+CREATE TABLE Comanda(
+    idComanda number(7) PRIMARY KEY,
+    dataPlecare date,
+    dataLivrare date,
+    idAdresa number(7) not null,
+    idClient number(7) not null,
+    CONSTRAINT comandaIdAdresaFK FOREIGN KEY(idAdresa) references Adresa(idAdresa),
+    CONSTRAINT comandaIdClientFK FOREIGN KEY(idClient) references Client(idClient)
+);
+CREATE TABLE Articol(
+    idArticol number(7) PRIMARY KEY,
+    denumire varchar(50),
+    marime varchar(3),
+    pret number(7) check(pret>0),
+    idReducere number(7),
+    idComanda number(7),
+    idTip number(7) not null,
+    CONSTRAINT articolIdReducereFK FOREIGN KEY(idReducere) references Reducere(idReducere),
+    CONSTRAINT articolIdComandaFK FOREIGN KEY(idComanda) references Comanda(idComanda),
+    CONSTRAINT articolIdTipFK FOREIGN KEY(idTip) references Tip_Articol(idTip)
+);
+CREATE TABLE Apartine(
+    idArticol number(7),
+    idApartenenta number(7),
+    CONSTRAINT apartinePK PRIMARY KEY(idArticol, idApartenenta)
+);

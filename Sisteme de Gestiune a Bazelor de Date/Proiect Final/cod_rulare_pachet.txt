@@ -1,0 +1,7 @@
+alter session set nls_date_format = 'dd/mm/yyyy';
+BEGIN
+    package_magazindehaine.PretTotalComenziPerClient;
+    package_magazindehaine.NumarArticolePerTip;
+    dbms_output.put_line(package_magazindehaine.ArticoleColectiiInterval(TO_DATE('01/01/2018'), TO_DATE('01/01/2022')));
+    package_magazindehaine.BrandPreferatClient('Radu', 'Robert');
+END;

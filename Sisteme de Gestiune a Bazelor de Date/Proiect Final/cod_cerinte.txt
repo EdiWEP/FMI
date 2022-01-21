@@ -1,0 +1,193 @@
+-- Sa se scrie un subprogram care afiseaza, pentru fiecare client, pretul total al comenzilor pe care le-a efectuat
+CREATE OR REPLACE PROCEDURE PretTotalComenziPerClient IS
+    TYPE recordClienti IS RECORD (idCl client.idClient%type, nume client.nume%type, prenume client.prenume%type);
+    TYPE tabelClienti IS TABLE OF recordClienti;
+    TYPE varrayComenzi IS VARRAY(1000) OF comanda.idComanda%type;
+    
+    clienti tabelClienti := tabelClienti();
+    comenzi varrayComenzi := varrayComenzi();
+
+    idxCom NUMBER;
+    pretTotal articol.pret%type;
+    
+BEGIN
+
+    SELECT idClient, nume, prenume 
+    BULK COLLECT INTO clienti 
+    FROM Client;
+    
+    FOR idxClient IN clienti.first..clienti.last LOOP
+        pretTotal := 0;
+        idxCom := 0;
+        
+        FOR idCom IN (
+            SELECT cmd.idComanda 
+            FROM Comanda cmd  
+            WHERE cmd.idClient = clienti(idxClient).idCl
+            )
+        LOOP
+            idxCom := idxCom + 1;
+            comenzi.extend;
+            comenzi(idxCom) := idCom.idComanda;
+            
+        END LOOP;
+        
+        FOR idx IN comenzi.first..comenzi.last LOOP    
+            FOR pr IN ( SELECT art.pret FROM Articol art WHERE comenzi(idx) = art.idComanda ) LOOP
+                pretTotal := pretTotal + pr.pret;
+            END LOOP; 
+        END LOOP;
+        
+        dbms_output.put_line('Clientul ' || clienti(idxClient).nume || ' ' || clienti(idxClient).prenume || ' are comenzi cu valoarea totala: ' || pretTotal);
+        
+        comenzi.trim(idxCom);
+    END LOOP;
+END;
+
+BEGIN
+	PretTotalComenziPerClient;
+END;
+
+-- Sa se scrie un subprogram care afiseaza 
+-- numărul de articole în stoc pentru fiecare tip de articol
+CREATE OR REPLACE PROCEDURE NumarArticolePerTip IS
+    numar NUMBER(7);
+    tip VARCHAR(52);
+    CURSOR c IS
+        SELECT ta.denumire || ' ' || ta.sex AS tipul, count(art.idtip) AS numar
+        FROM tip_articol ta 
+        JOIN articol art ON ta.idtip = art.idtip
+        GROUP BY ta.denumire || ' ' || ta.sex;
+BEGIN
+    dbms_output.put_line('In stoc se afla:');
+    FOR tip_art IN c LOOP
+        IF tip_art.numar = 0 THEN dbms_output.put_line('Niciun articol de tip ' || tip_art.tipul);
+        END IF;
+        IF tip_art.numar = 1 THEN dbms_output.put_line('Un articol de tip ' || tip_art.tipul);
+        END IF;
+        IF tip_art.numar > 1 THEN dbms_output.put_line(tip_art.numar || ' articole de tip ' || tip_art.tipul);
+        END IF;
+    END LOOP;
+END;
+
+BEGIN
+	NumarArticolePerTip;
+END;
+
+-- Sa se scrie o functie care returneaza numarul de articole 
+-- care fac parte din colectii lansate intr-un interval dat
+CREATE OR REPLACE FUNCTION ArticoleColectiiInterval(inceput DATE, sfarsit DATE)
+RETURN NUMBER IS
+
+    numar NUMBER(7);
+    exceptie_interval EXCEPTION;
+BEGIN
+
+    IF inceput > sfarsit THEN RAISE exceptie_interval;
+    END IF;
+    
+    SELECT count(DISTINCT art.idarticol) INTO numar
+    FROM articol art
+    JOIN apartine apt ON apt.idarticol = art.idarticol
+    JOIN colectie cole ON apt.idapartenenta = cole.idcolectie
+    WHERE cole.dataaparitie >= inceput AND cole.dataaparitie <= sfarsit;
+    
+    RETURN numar;
+    
+    EXCEPTION
+        WHEN exceptie_interval THEN
+            RAISE_APPLICATION_ERROR(-20001, 'Intervalul dat este invalid');
+        WHEN OTHERS THEN 
+            RAISE_APPLICATION_ERROR(-20002, 'A aparut o eroare');
+END;
+
+alter session set nls_date_format = 'dd/mm/yyyy';
+BEGIN
+	dbms_output.put_line('Articole din colectii lansate in intervalul 01/01/2018 - 01/01/2022: ' 
+		|| ArticoleColectiiInterval(TO_DATE('01/01/2018'), TO_DATE('01/01/2022')))
+END;
+
+alter session set nls_date_format = 'dd/mm/yyyy';
+BEGIN
+	dbms_output.put_line('Articole din colectii lansate in intervalul 01/01/2023 - 01/01/2022: ' 
+		|| ArticoleColectiiInterval(TO_DATE('01/01/2023'), TO_DATE('01/01/2022')))
+END;
+
+
+-- Sa se scrie o procedura care afiseaza, pentru un anumit client(nume si prenume), 
+-- brand-ul de la care a comandat cele mai multe articole
+CREATE OR REPLACE PROCEDURE BrandPreferatClient(numeClient client.nume%type, prenumeClient client.prenume%type) IS
+
+    idCl client.idClient%type;
+    numarMaxim number(7);
+    numeBrand brand.denumire%type;
+    clientExista BOOLEAN:=false;
+    
+BEGIN
+
+    SELECT cli.idClient INTO idCl
+    FROM client cli
+    WHERE cli.nume = numeClient and cli.prenume = prenumeClient;
+    
+    clientExista := true;
+    
+    SELECT max(count(bra.denumire)) INTO numarMaxim
+    FROM client cli
+    JOIN comanda com ON com.idclient = cli.idclient
+    JOIN articol art ON art.idcomanda = com.idcomanda
+    JOIN apartine apt ON apt.idarticol = art.idarticol
+    JOIN colectie cole ON apt.idapartenenta = cole.idcolectie
+    JOIN brand bra ON bra.idbrand = cole.idbrand
+    WHERE cli.idclient = idCl
+    GROUP BY bra.denumire;
+    
+    SELECT * 
+    INTO numarMaxim, numeBrand
+    FROM (SELECT count(bra.denumire), bra.denumire 
+    FROM client cli
+    JOIN comanda com ON com.idclient = cli.idclient
+    JOIN articol art ON art.idcomanda = com.idcomanda
+    JOIN apartine apt ON apt.idarticol = art.idarticol
+    JOIN colectie cole ON apt.idapartenenta = cole.idcolectie
+    JOIN brand bra ON bra.idbrand = cole.idbrand
+    WHERE cli.idclient = idCl
+    GROUP BY bra.denumire
+    HAVING count(bra.denumire) = numarMaxim) 
+    WHERE rownum = 1;
+    
+    dbms_output.put_line('Clientul ' || numeClient || ' ' || prenumeClient);
+    dbms_output.put_line('a comandat majoritatea articolelor de la brand-ul: ' || numeBrand);
+    
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN
+            IF clientExista THEN 
+                RAISE_APPLICATION_ERROR(-20003, 'Clientul nu are nicio comanda efectuata');
+            ELSE
+                RAISE_APPLICATION_ERROR(-20001, 'Niciun client cu numele si prenumele dat');
+            END IF;
+        WHEN TOO_MANY_ROWS THEN
+            RAISE_APPLICATION_ERROR(-20002, 'Mai multi clienti cu numele si prenumele dat');
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20004, 'A aparut o eroare');
+END;
+
+BEGIN
+    BrandPreferatClient('Radu', 'Robert');
+END;
+
+BEGIN
+    BrandPreferatClient('Nimeni', 'Niciunul');
+END;
+
+-- Adaug un client cu acelasi nume ca alt client deja existent
+INSERT INTO Client(idClient, nume, prenume, telefon, idAdresa) VALUES(6, 'Ionescu', 'Gigel', '0739003441', 1);   
+BEGIN
+    BrandPreferatClient('Ionescu', 'Gigel');
+END;
+
+-- Adaug un nou client, acesta nu va avea comenzi efectuate
+INSERT INTO client(idClient, nume, prenume, telefon, idAdresa) VALUES(7, 'Altcineva', 'Individ', '0732459041', 1);
+BEGIN
+    BrandPreferatClient('Altcineva', 'Individ');
+END;
+

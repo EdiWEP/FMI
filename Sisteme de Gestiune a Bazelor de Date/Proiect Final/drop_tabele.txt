@@ -1,0 +1,65 @@
+
+
+drop table log_ldd;
+drop table apartine;
+drop table articol;
+drop table comanda;
+drop table colectie;
+drop table brand;
+drop table reducere;
+drop table tip_articol;
+drop table client;
+drop table adresa;
+
+delete from apartine;
+delete from articol;
+delete from comanda;
+delete from colectie;
+delete from brand;
+delete from reducere;
+delete from tip_articol;
+delete from client;
+delete from adresa;
+
+
+select * from adresa;
+select * from client;
+select * from tip_articol;
+select * from reducere;
+select * from brand;
+select * from colectie;
+select * from comanda;
+select * from articol
+select * from apartine;
+
+
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(1, 1);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(1, 2);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(2, 1);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(2, 2);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(3, 2);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(3, 1);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(4, 2);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(4, 1);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(5, 3);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(5, 4);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(6, 3);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(6, 4);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(7, 4);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(7, 3);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(8, 4);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(8, 3);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(9, 5);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(9, 6);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(10, 5);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(10, 6);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(11, 6);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(12, 6);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(13, 7);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(14, 7);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(15, 8);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(16, 8);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(17, 9);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(18, 9);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(19, 10);
+INSERT INTO Apartine(idArticol, idApartenenta) VALUES(20, 10);
